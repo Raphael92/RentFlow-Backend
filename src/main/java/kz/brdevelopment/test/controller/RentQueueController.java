@@ -1,14 +1,14 @@
 package kz.brdevelopment.test.controller;
 
-import kz.brdevelopment.test.model.Landlord;
-import kz.brdevelopment.test.model.QueueStatus;
-import kz.brdevelopment.test.model.RentQueue;
-import kz.brdevelopment.test.model.RentRequest;
+import kz.brdevelopment.test.dto.UpdateQueueStatusById;
+import kz.brdevelopment.test.dto.UpdateQueueStatusByRequestInfo;
+import kz.brdevelopment.test.model.*;
 import kz.brdevelopment.test.service.RentQueueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -46,20 +46,35 @@ public class RentQueueController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/updateStatus/{requestId}/{userId}")
+   /* @PutMapping("/updateStatus/{requestId}/{userId}")
     public ResponseEntity<Void> updateStatus(
             @PathVariable Long requestId,
             @PathVariable Long userId,
-            @RequestParam QueueStatus status) {
-        service.updateStatusByRequestIdAndLandlordId(requestId, userId, status);
+            @RequestParam QueueStatus status,
+            @RequestParam(name = "byClient", required = false, defaultValue = "false") boolean byClient) {
+
+        UpdateQueueStatusByRequestInfo queueStatusByRequestInfo = UpdateQueueStatusByRequestInfo.builder()
+                .requestId(requestId)
+                .userId(userId)
+                .status(status)
+                .byClient(byClient)
+                .build();
+
+        service.updateStatusByRequestIdAndLandlordId(queueStatusByRequestInfo);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
     @PutMapping("/updateStatus/{id}")
     public ResponseEntity<Void> updateStatusById(
             @PathVariable Long id,
-            @RequestParam QueueStatus status) {
-        service.updateStatusById(id, status);
+            @RequestParam QueueStatus status,
+            @RequestParam(name = "byClient", required = false, defaultValue = "false") boolean byClient) {
+        UpdateQueueStatusById queueStatusById = UpdateQueueStatusById.builder()
+                .queueId(id)
+                .status(status)
+                .byClient(byClient)
+                .build();
+        service.updateStatusById(queueStatusById);
         return ResponseEntity.ok().build();
     }
 

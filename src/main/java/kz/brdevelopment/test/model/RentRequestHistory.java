@@ -1,31 +1,28 @@
 package kz.brdevelopment.test.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-public class RentQueue {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RentRequestHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "request_id")
-    private RentRequest request;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Landlord landlord;
+    private RentRequest rentRequest;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    private String comment;
+    private String action;
 
-    @Enumerated(EnumType.STRING)
-    private QueueStatus status = QueueStatus.PENDING;
+    private RequestHistoryAction historyAction;
 }

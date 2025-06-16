@@ -41,8 +41,9 @@ public class RentRequestController {
     @PutMapping("/updateStatus/{requestId}")
     public ResponseEntity<Void> updateStatus(
             @PathVariable Long requestId,
-            @RequestParam RequestStatus status) {
-        service.updateStatusById(requestId, status);
+            @RequestParam RequestStatus status,
+            @RequestParam(name = "byClient", required = false, defaultValue = "false") boolean byClient) {
+        service.updateStatusById(requestId, status, byClient);
         return ResponseEntity.ok().build();
     }
 }

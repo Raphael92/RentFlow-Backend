@@ -27,6 +27,7 @@ public class RentRequestMapper {
         dto.setSenderId(rentRequest.getSender().getId());
         dto.setCreatedAt(rentRequest.getCreatedAt());
         dto.setStatus(rentRequest.getStatus());
+        dto.setPublicToken(rentRequest.getPublicToken());
 
         List<RentQueue> responses = rentQueueRepository.findByRequestIdAndStatusNot(rentRequest.getId(), QueueStatus.CANCELED);
         List<Landlord> responseUsers = responses.stream()
@@ -34,7 +35,8 @@ public class RentRequestMapper {
                 .collect(Collectors.toList());
         //dto.setResponses(responses);
 
-        dto.setResponses(responseUsers);
+        dto.setLandlordResponses(responseUsers);
+        dto.setQueueResponses(responses);
         return dto;
     }
 }
